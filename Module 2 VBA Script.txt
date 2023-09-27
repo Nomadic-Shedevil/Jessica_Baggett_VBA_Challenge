@@ -1,0 +1,123 @@
+Sub mark()
+
+'declare variable types
+Dim ticker As String
+Dim num As Long
+Dim volume As Double
+Dim lastrow As Double
+Dim stockvalue As Double
+Dim pricechange As Double
+Dim yearly_change As Double
+Dim openprice As Double
+Dim closeprice As Double
+Dim percent_change As Double
+Dim color_options(2) As Integer
+Dim cellnumber As Integer
+Dim openindex As Long
+Dim greatestincrease As Double
+Dim greatestincreaseticker As String
+Dim greatestdecrease As Double
+Dim greatestdecreaseticker As String
+Dim greatestvolume As Double
+Dim greatestvolumeticker As String
+
+'loop through all worksheets
+
+For Each ws In Worksheets
+ws.Activate
+
+'set integers/variables
+lastrow = Cells(Rows.Count, 1).End(xlUp).Row
+num = 2
+stockvalue = 0
+cellnumber = 2
+openindex = 2
+greatestincrease = 0
+greatestdecrease = 0
+greatestvolume = 0
+
+'set headers on dataset
+Cells(1, 9).Value = "Ticker"
+Cells(1, 10).Value = "Yearly Change"
+Cells(1, 11).Value = "Percent Changed"
+Cells(1, 12).Value = "Total Stock Volume"
+
+For i = 2 To lastrow
+    
+    'formula for total stocks per ticker
+    stockvalue = stockvalue + Cells(i, 7).Value
+    
+    'if statements to find values in each column
+    If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+        ticker = Cells(i, 1).Value
+        openprice = Cells(openindex, 3).Value
+        closeprice = Cells(i, 6).Value
+        yearly_change = closeprice - openprice
+        percent_change = yearly_change / openprice
+        
+        Cells(num, 9).Value = ticker
+        Cells(num, 10).Value = yearly_change
+        Cells(num, 11).Value = percent_change
+        Cells(num, 12).Value = stockvalue
+    
+    'formatting percent_change as a percentage....
+        Cells(num, 11).NumberFormat = "0.00%"
+    
+      'color format the yearly change column
+        If Cells(num, 10).Value > 0 Then
+            Cells(num, 10).Interior.ColorIndex = 4
+        
+        ElseIf Cells(num, 11).Value < 0 Then
+            Cells(num, 10).Interior.ColorIndex = 3
+    
+        End If
+       'summary table - looking for Max and Min, and also largest stock volume
+        If percent_change > greatestincrease Then
+            greatestincrease = percent_change
+            greatestincreaseticker = ticker
+        End If
+        
+        If percent_change < greatestdecrease Then
+            greatestdecrease = percent_change
+            greatestdecreaseticker = ticker
+        End If
+        
+        If stockvalue > greatestvolume Then
+            greatestvolume = stockvalue
+            greatestvolumeticker = ticker
+        End If
+        
+     'parameters to reset at each if interval/statement
+        num = num + 1
+        openindex = i + 1
+        stockvalue = 0
+            
+    
+    End If
+    
+   
+              
+Next i
+
+
+    'setsummary table headers
+Cells(1, 15).Value = "Ticker"
+Cells(1, 16).Value = "Value"
+Cells(2, 14).Value = "Greatest % Increase"
+Cells(3, 14).Value = "Greatest % Decrease"
+Cells(4, 14).Value = "Greatest Total Volume"
+
+Cells(2, 15).Value = greatestincreaseticker
+Cells(3, 15).Value = greatestdecreaseticker
+Cells(4, 15).Value = greatestvolumeticker
+
+Cells(2, 16).Value = greatestincrease
+Cells(2, 16).NumberFormat = "0.00%"
+Cells(3, 16).NumberFormat = "0.00%"
+Cells(3, 16).Value = greatestdecrease
+Cells(4, 16).Value = greatestvolume
+        
+Next ws
+     
+
+End Sub
