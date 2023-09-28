@@ -2,6 +2,10 @@
 Module 3 work/progress
 There are two files for the VBA Scipt. Both should work, but I uploaded both. One is a vbs file. Another should be a txt file. Screenshots provided of each worksheet within the workbook.
 
+dropbox link for the dataset is located in the comment section of the bootcamp submission. In case that does not work, here it is again:
+
+https://www.dropbox.com/scl/fi/wtkolf8fsjcy60c0zbxzd/Jessica_Baggett_Multiple_year_stock_data.xlsm?rlkey=dnbbahfg40id002xa1f454rat&dl=0
+
 Citations/References:
 
 Trend Algorithms. See.Cancer.gov. https://seer.cancer.gov/seerstat/WebHelp/Trend_Algorithms.htm
